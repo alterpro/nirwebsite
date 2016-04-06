@@ -8,8 +8,11 @@ from wagtail.wagtailadmin.edit_handlers import FieldPanel
 
 
 class HomePage(Page):
+    top_title = models.CharField(max_length=100, blank=True)
+    top_sub_title = models.CharField(max_length=250, blank=True)
     body = RichTextField(blank=True)
-    description = RichTextField(blank=True)
     content_panels = Page.content_panels + [
-        FieldPanel('body', classname="full")
+        FieldPanel('top_title'),
+        FieldPanel('top_sub_title'),
+        FieldPanel('body', classname="full"),
     ]

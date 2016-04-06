@@ -43,7 +43,6 @@ htmlcov/
 nosetests.xml
 coverage.xml
 *,cover
-.hypothesis/
 
 # Translations
 *.mo
@@ -51,6 +50,7 @@ coverage.xml
 
 # Django stuff:
 *.log
+*.env
 
 # Sphinx documentation
 docs/_build/
@@ -58,5 +58,32 @@ docs/_build/
 # PyBuilder
 target/
 
-#Ipython Notebook
-.ipynb_checkpoints
+# Ignore SQLITE database
+*.sqlite3
+*~
+
+# Ignore uploaded media
+*media*
+
+# Ignore assets folder
+*assets*
+
+# ignore compiled bootstrap files
+*bootstrap.min.css
+*bootstrap.css
+
+# Ignore virtual environment
+venv/
+# ignore vagrant system files
+.vagrant/
+
+
+# ignore backup files
+*.sql
+*.bak
+
+*.DS_Store
+node_modules/
+
+# ignore pycharm
+.idea/
