@@ -10,7 +10,7 @@ from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailadmin.edit_handlers import (FieldPanel,
                                                 InlinePanel,
                                                 MultiFieldPanel,
-                                                PageChooserPanel)
+                                                PageChooserPanel,)
 
 logger = logging.getLogger(__name__)
 #single blog page
@@ -65,7 +65,11 @@ class BlogIndexPage(Page):
 
 
 class LinkFields(models.Model):
-    link_external = models.URLField("External link", blank=True)
+    link_external = models.URLField(
+        "External link",
+        blank=True,
+        null=True,
+    )
     link_page = models.ForeignKey(
         'wagtailcore.Page',
         null=True,
@@ -77,8 +81,11 @@ class LinkFields(models.Model):
     def link(self):
         if self.link_page:
             return self.link_page.url
-        else:
+        elif self.link_external:
             return self.link_external
+        else:
+            logger.error('attempted to retrieve empty LinkField')
+            return None
 
     panels = [
         FieldPanel('link_external'),
@@ -87,6 +94,7 @@ class LinkFields(models.Model):
 
     class Meta:
         abstract = True
+
 
 
 # Related links

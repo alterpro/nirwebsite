@@ -2,38 +2,33 @@ from __future__ import unicode_literals
 
 from django.db import models
 
-from wagtail.wagtailadmin.edit_handlers import FieldPanel
+from wagtail.wagtailadmin.edit_handlers import FieldPanel, InlinePanel, PageChooserPanel
 from wagtail.wagtailsnippets.models import register_snippet
+from wagtail.wagtailcore.models import Orderable
 from blog.models import LinkFields
+from modelcluster.fields import ParentalKey, ClusterableModel
 
+class MenuManager(models.Manager):
+    def get_by_natural_key(self, name):
+        return self.get(title=name)
 
 @register_snippet
-class Header(models.Model):
-    url = models.URLField(null=True, blank=True)
-    text = models.CharField(max_length=255)
+class Menu(ClusterableModel):
+    objects = MenuManager()
+    title = models.CharField(max_length=255, null=False, blank=False)
 
-    panels = [
-        FieldPanel('url'),
-        FieldPanel('text'),
-    ]
-
-    def __str__(self):              # __unicode__ on Python 2
-        return self.text
-
-class MenuItem(LinkFields):
     @property
-    def url(self):
-        return self.link
+    def items(self):
+        return self.objects.all()
 
     def __unicode__(self):
-        if self.link_external:
-            title = self.link_external
-        elif self.link_page:
-            title = self.link_page.title
-        elif self.link_document:
-            title = self.link_document.title
-        return title
+        return self.title
 
-    class Meta:
-        verbose_name = "Menu item"
-        description = "Items appearing in the menu"
+Menu.panels = [
+    FieldPanel('title', classname='full title'),
+    InlinePanel('menu_items', label="Menu Items", help_text='Set the menu items for the current menu.')
+]
+
+class MenuItem(Orderable, LinkFields):
+    parent = ParentalKey(Menu, related_name='menu_items', null=True)
+    link_title = models.CharField(max_length=255)

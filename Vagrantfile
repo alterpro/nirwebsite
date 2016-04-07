@@ -3,7 +3,7 @@
 
 Vagrant.configure(2) do |config|
 
-  config.vm.box = "torchbox/wagtail-jessie64"
+  config.vm.box = "debian/contrib-jessie64"
   config.vm.network "forwarded_port", guest: 8000, host: 8111
   config.vm.synced_folder ".", "/home/vagrant/nir-alter"
   config.ssh.forward_agent = true
@@ -21,5 +21,5 @@ Vagrant.configure(2) do |config|
 # SCRIPT
 
 # config.vm.provision "shell", inline: $SERVER_SETUP, privileged: true
-
+config.vm.provision :shell, :path => "install/install.sh"
 end

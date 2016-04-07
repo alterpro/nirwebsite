@@ -1,4 +1,4 @@
-{% load static wagtailuserbar %}
+{% load static wagtailuserbar header_tags %}
 
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -24,7 +24,9 @@
     <body class="{% block body_class %}{% endblock %}">
         {% wagtailuserbar %}
 
-        {% block header %}{% endblock %}
+        {% block header %}
+            {% menu 'Menu object'%}
+        {% endblock %}
         {% block content %}{% endblock %}
         {% block footer %}{% endblock %}
 
