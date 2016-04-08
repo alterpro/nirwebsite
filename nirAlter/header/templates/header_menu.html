@@ -1,0 +1,26 @@
+{% load wagtailimages_tags %}
+
+{% if menu %}
+{% image menu.brand_image width-500 as brand_photo %}
+
+<nav class="navbar navbar-default navbar-fixed-top global-site-header">
+    <div class="container">
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <a class="navbar-brand" href="/">
+                    <img src="{{ brand_photo.url }}" width="{{ menu.brand_image_width }}" height="{{ menu.brand_image_height }}" alt="{{ menu.brand_text }}" class="header-brand-img" />
+                </a>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% for item in menu.menu_items.all %}
+                <li>
+                    <a href="{{ item.menu_url }}">{{ item.menu_text }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<script src="{% static 'css/bootstrap.min.css' %}"></script>
+{% endif %}

@@ -34,6 +34,10 @@ apt-get install -y python-pip
 pip install virtualenv
 pip install wagtail
 
+#set up logs directory
+mkdir -p /var/log/niralter/
+chmod 777 /var/log/niralter/
+
 # Create vagrant pgsql superuser
 su - postgres -c "createuser -s vagrant"
 
