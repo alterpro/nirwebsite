@@ -1,11 +1,22 @@
 {% extends "base.html" %}
 
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags wagtailimages_tags blog_tags %}
 
 {% block body_class %}template-homepage{% endblock %}
 
+
 {% block content %}
-    <h1>{{ page.top_title }}</h1>
-    <h3>{{ page.top_sub_title }}</h3>
-    {{ page.body|richtext }}
+{% image page.top_background_image original as top_background_image %}
+<div class="home-page-container">
+    <div class="top-background-image" style="background-image:url({{ top_background_image.url }}); height:{{ page.top_background_image_height }}px">
+        <div class="home-titles-cotainer">
+            <span class="home-top-title">{{ page.top_title }}</span>
+            <span class="home-top-sub-title">{{ page.top_sub_title }}</span>
+        </div>
+    </div>
+
+    <div class="blog-recent-section">
+        {% recent_blog_posts 'Recent Posts' %}
+    </div>
+</div>
 {% endblock %}

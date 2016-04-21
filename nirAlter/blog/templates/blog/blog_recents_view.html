@@ -1,0 +1,20 @@
+{% load wagtailimages_tags wagtailcore_tags  %}
+
+<div class="blog-recents-section-container container">
+    <div class="blog-recents-title-contianer">
+        <span>{{ recents_title }}</span>
+    </div>
+    {% for blog in recent_blog_posts %}
+        <div class="recent-blog-container">
+            <span class="recent-blog-title">{{ blog.title }}</span>
+            <span class="recent-blog-intro">{{ blog.intro }}</span>
+            <div class="recent-blog-body-container">
+                <span class="recent-blog-body">{{ blog.body|richtext }}</span>
+            </div>
+
+            <div class="read-more-link-container">
+                <a class="read-more-link" href="{% pageurl blog %}">Read More</a>
+            </div>
+        </div>
+    {% endfor %}
+</div>

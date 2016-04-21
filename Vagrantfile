@@ -21,5 +21,6 @@ Vagrant.configure(2) do |config|
 # SCRIPT
 
 # config.vm.provision "shell", inline: $SERVER_SETUP, privileged: true
-config.vm.provision :shell, :path => "install/install.sh"
+config.vm.provision :shell, :path => "provisioners/install.sh"
+config.vm.provision :shell, path: "provisioners/run.sh", run: "always", privileged: false
 end

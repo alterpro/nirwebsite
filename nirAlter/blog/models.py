@@ -7,10 +7,12 @@ from wagtail.wagtailsearch import index
 from modelcluster.fields import ParentalKey
 from wagtail.wagtailcore.models import Page, Orderable
 from wagtail.wagtailcore.fields import RichTextField
+from wagtail.wagtailsnippets.models import register_snippet
 from wagtail.wagtailadmin.edit_handlers import (FieldPanel,
                                                 InlinePanel,
                                                 MultiFieldPanel,
                                                 PageChooserPanel,)
+from modelcluster.fields import ClusterableModel
 
 logger = logging.getLogger(__name__)
 #single blog page
@@ -37,6 +39,9 @@ class BlogPage(Page):
         FieldPanel('intro'),
         FieldPanel('body'),
     ]
+
+    def __str__(self):
+        return self.title
 
     def get_absolute_url(self):
         return self.full_url
@@ -112,3 +117,16 @@ class RelatedLink(LinkFields):
 
 class BlogIndexRelatedLink(Orderable, RelatedLink):
     page = ParentalKey('BlogIndexPage', related_name='related_links')
+
+@register_snippet
+class BlogRecentsSnippet(models.Model):
+    title = models.CharField(max_length=255, null=False, blank=False, help_text="the title will be displayed on the page")
+    display_count = models.IntegerField(help_text="number of posts to be displayed")
+
+    panels = (
+        FieldPanel('title'),
+        FieldPanel('display_count'),
+    )
+
+    def __str__(self):
+        return self.title
